@@ -1,15 +1,16 @@
-import firebase from 'firebase';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBKXyQSENCi4ztLzhPaOMN5r32x4Ydd-WY",
-    authDomain: "slack-clone-challenge-f2283.firebaseapp.com",
-    projectId: "slack-clone-challenge-f2283",
-    storageBucket: "slack-clone-challenge-f2283.appspot.com",
-    messagingSenderId: "910344846370",
-    appId: "1:910344846370:web:e8799b961d8383d8ed1e7b"
+    apiKey: "AIzaSyCjKzd4hvo9Y5NY6Xs7F9mN6V0VJQxh51s",
+    authDomain: "slack-clone-c2779.firebaseapp.com",
+    projectId: "slack-clone-c2779",
+    storageBucket: "slack-clone-c2779.appspot.com",
+    messagingSenderId: "542117040515",
+    appId: "1:542117040515:web:090013fbdae071cede26b6"
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const db = firebaseApp.firestore();
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
 export default db;

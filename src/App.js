@@ -5,14 +5,32 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import styled from 'styled-components';
 import Sidebar from "./components/Sidebar";
+import db from "./firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 function App() {
+
+  const [rooms, setRooms] = useState();
+
+  const getChannels = async () => {
+    const roomsRef = collection(db, "rooms");
+    const data = await getDocs(roomsRef);
+    setRooms(data.docs.map(doc => { return { "id": doc.id, "name": doc.data().name } }));
+  }
+
+  const addRoom = (newRoom) => setRooms([...rooms, newRoom]);
+
+  useEffect(() => {
+    getChannels();
+  }, []);
+
   return (
     <div className="App">
       <Container>
         <Header />
         <Main>
-          <Sidebar />
+          <Sidebar rooms={rooms} addRoom={addRoom} />
           <Routes>
             <Route path="/room" element={<Chat />} />
             <Route path="/" element={<Login />}> </Route>
