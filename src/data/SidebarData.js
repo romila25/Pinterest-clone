@@ -6,12 +6,12 @@ import GroupIcon from '@material-ui/icons/Group';
 import AppsIcon from '@material-ui/icons/Apps';
 
 export const sidebarItems = [
-    { icon: <MessageIcon />, text: "Thread" },
-    { icon: <InboxIcon />, text: "All DMs" },
-    { icon: <DraftsIcon />, text: "Mentions & Reactions" },
-    { icon: <BookmarkBorderIcon />, text: "Save Items" },
-    { icon: <GroupIcon />, text: "Peoples & Groups" },
-    { icon: <AppsIcon />, text: "More" }
+    { id: 1, icon: <MessageIcon />, text: "Thread" },
+    { id: 2, icon: <InboxIcon />, text: "All DMs" },
+    { id: 3, icon: <DraftsIcon />, text: "Mentions & Reactions" },
+    { id: 4, icon: <BookmarkBorderIcon />, text: "Save Items" },
+    { id: 5, icon: <GroupIcon />, text: "Peoples & Groups" },
+    { id: 6, icon: <AppsIcon />, text: "More" }
 ]
 
 export const channels = [{ name: "# Channel 1" }, { name: "# Channel 2" }]

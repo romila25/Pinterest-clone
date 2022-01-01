@@ -5,8 +5,10 @@ import { sidebarItems } from "../data/SidebarData";
 import AddIcon from '@material-ui/icons/Add';
 import db from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom"
 
 export default function Sidebar(props) {
+    const navigate = useNavigate();
 
     const addChannel = async () => {
         const promptName = prompt("Enter a channel name");
@@ -15,6 +17,13 @@ export default function Sidebar(props) {
             await addDoc(roomsRef, { name: promptName });
             props.addRoom({ name: promptName });
         }
+    }
+
+    const goToChannel = (id) => {
+        if (id) {
+            navigate(`/room/${id}`)
+        }
+
     }
     return (
         <Container>
@@ -28,7 +37,7 @@ export default function Sidebar(props) {
             </WorkSpaceContainer>
             <MainChannels>
                 {sidebarItems.map(item =>
-                    <MainChannelItem>
+                    <MainChannelItem key={item.id}>
                         {item.icon}
                         {item.text}
                     </MainChannelItem>
@@ -44,7 +53,7 @@ export default function Sidebar(props) {
                 </NewChannelContainer>
                 <ChannelsList>
                     {props.rooms?.map(item =>
-                        <Channel>
+                        <Channel key={item.id} onClick={() => goToChannel(item.id)}>
                             # {item.name}
                         </Channel>)}
                 </ChannelsList>
@@ -54,7 +63,7 @@ export default function Sidebar(props) {
 }
 
 const Container = styled.div`
-background: #350d36;
+background: #350D36;
 `
 
 const WorkSpaceContainer = styled.div`
@@ -101,7 +110,7 @@ align-items: center;
 padding-left: 19px;
 cursor: pointer;
 :hover {
-    background: #350D36;
+    background: #410043;
   }
 `
 const ChannelsContainer = styled.div`
@@ -127,8 +136,8 @@ const Channel = styled.div`
   margin-left: 19px;
   cursor: pointer;
   :hover {
-    background: #350D36;
-  }
+    background: #410043;
+}
 
 `
 
