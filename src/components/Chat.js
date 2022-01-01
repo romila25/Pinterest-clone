@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import ChatInput from './ChatInput';
 import ChatMessage from "./ChatMessage";
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 import db from "../firebase";
 import { useParams } from 'react-router-dom';
+import { Timestamp } from "@firebase/firestore";
 
-export default function Chat() {
+export default function Chat({ user }) {
 
     const { channelId } = useParams();
     const [channel, setChannel] = useState();
@@ -25,10 +26,24 @@ export default function Chat() {
         setChannel(channel.data());
     }
 
+    const sendMessage = async (text) => {
+        if (channelId) {
+            let payload = {
+                message: text,
+                user: user.name,
+                userImage: user.photo,
+                timestamp: Timestamp.now()
+            }
+            const messagesRef = collection(db, "rooms", channelId, "messages");
+            await addDoc(messagesRef, payload);
+        }
+
+    }
+
     useEffect(() => {
         getChannel();
         getMessages();
-    }, [channelId]);
+    }, [channelId, messages]);
 
     return (
         <Container>
@@ -52,7 +67,7 @@ export default function Chat() {
             <MessageContainer>
                 {messages?.map((message) => <ChatMessage message={message} key={message.id} />)}
             </MessageContainer>
-            <ChatInput />
+            <ChatInput sendMessage={sendMessage} />
         </Container>
     )
 }
@@ -60,6 +75,7 @@ export default function Chat() {
 const Container = styled.div`
   display: grid;
   grid-template-rows: 64px auto min-content;
+  min-height: 0;
 `;
 
 const Header = styled.div`
@@ -71,6 +87,9 @@ border-bottom: 1px solid rgba(83,39,83,.13);
 `;
 
 const MessageContainer = styled.div`
+display: flex;
+flex-direction: column;
+overflow-y: scroll;
 `;
 
 

@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
 
-export default function ChatInput() {
+export default function ChatInput({ sendMessage }) {
+
+    const [input, setInput] = useState("");
+
+    const send = (e) => {
+        e.preventDefault();
+        if (!input) return;
+        sendMessage(input);
+        setInput("")
+    }
+
     return (
         <Container>
             <InputContainer>
                 <form>
-                    <input type="text" placeholder="Message here..." />
-                    <SendButton>
+                    <input type="text" placeholder="Message here..." onChange={(e) => setInput(e.target.value)} value={input} />
+                    <SendButton type="submit" onClick={send}>
                         <Send />
                     </SendButton>
                 </form>
@@ -45,7 +55,7 @@ form {
 
 `;
 
-const SendButton = styled.div`
+const SendButton = styled.button`
 background: #007a5a;
 border-radius: 2px;
 width: 32px;
@@ -55,6 +65,7 @@ align-items: center;
 justify-content: center;
 margin-right: 5px;
 cursor: pointer;
+border: none;
 
 .MuiSvgIcon-root {
     width: 18px;
